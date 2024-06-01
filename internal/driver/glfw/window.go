@@ -14,6 +14,7 @@ import (
 	"fyne.io/fyne/v2/internal/driver"
 	"fyne.io/fyne/v2/internal/driver/common"
 	"fyne.io/fyne/v2/internal/scale"
+	"github.com/go-gl/glfw/v3.3/glfw"
 )
 
 const (
@@ -21,6 +22,17 @@ const (
 	dragMoveThreshold = 2   // how far can we move before it is a drag
 	windowIconSize    = 256
 )
+
+// Custom Always on Top Function
+func (w *window) Topmost(makeTopmost bool) {
+	w.runOnMainWhenCreated(func() {
+		top := 0
+		if makeTopmost {
+			top = 1
+		}
+		w.viewport.SetAttrib(glfw.Floating, top)
+	})
+}
 
 func (w *window) Title() string {
 	return w.title
